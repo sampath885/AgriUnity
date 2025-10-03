@@ -1,0 +1,19 @@
+.env
+db.sqlite3
+db.sqlite3*
+venv/
+__pycache__/
+
+# ML Model files
+*.pkl
+
+# Configuration files
+mcp_client_config.json
+
+# Documentation files
+MCP_IMPLEMENTATION_SUMMARY.md
+MCP_README.md
+*.md
+AI_ADVISOR_README.md
+BARGAINING_OPTIMIZATION.md
+LOGISTICS_README.md

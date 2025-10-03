@@ -1,0 +1,596 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Modern Authentication System CSS */
+.login-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(78, 204, 163, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 1200px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+/* Role Selection Screen */
+.role-selection {
+  padding: 60px 40px;
+  text-align: center;
+  width: 100%;
+}
+
+.hero-section {
+  margin-bottom: 60px;
+  width: 100%;
+}
+
+.main-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #4ecca3, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  color: #b8c5d6;
+  margin-bottom: 40px;
+  font-weight: 300;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.platform-highlights {
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 40px);
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.highlight-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #e0e6ed;
+  min-width: 120px;
+}
+
+.highlight-icon {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.role-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(24px, 4vw, 40px);
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.role-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: clamp(30px, 4vw, 40px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.role-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(0, 212, 255, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.role-card:hover::before {
+  opacity: 1;
+}
+
+.role-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(78, 204, 163, 0.5);
+  box-shadow: 0 20px 40px rgba(78, 204, 163, 0.2);
+}
+
+.farmer-card:hover {
+  border-color: rgba(78, 204, 163, 0.8);
+}
+
+.buyer-card:hover {
+  border-color: rgba(0, 212, 255, 0.8);
+}
+
+.role-icon {
+  font-size: clamp(3rem, 6vw, 4rem);
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.role-card h2 {
+  font-size: clamp(1.5rem, 3vw, 1.8rem);
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.role-card p {
+  color: #b8c5d6;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.role-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.role-benefits span {
+  color: #4ecca3;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.existing-user {
+  color: #b8c5d6;
+  margin-top: 20px;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #4ecca3;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.link-button:hover {
+  color: #00d4ff;
+}
+
+/* Authentication Forms */
+.auth-form {
+  padding: clamp(30px, 5vw, 40px);
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  width: 100%;
+}
+
+.back-button {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.auth-header h2 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.auth-header p {
+  color: #b8c5d6;
+  font-size: clamp(1rem, 2vw, 1.1rem);
+}
+
+.registration-form,
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.form-group label {
+  color: #e0e6ed;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #4ecca3;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(78, 204, 163, 0.2);
+}
+
+.form-group select option {
+  background: #1a1a2e;
+  color: #ffffff;
+}
+
+/* Smart Pincode Features */
+.pincode-input-group {
+  position: relative;
+  width: 100%;
+}
+
+.detecting-indicator {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4ecca3;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(78, 204, 163, 0.3);
+  border-top: 2px solid #4ecca3;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.help-text {
+  color: #b8c5d6;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.pincode-help {
+  color: #ffd700;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 4px;
+  display: block;
+  background: rgba(255, 215, 0, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  border-left: 3px solid #ffd700;
+}
+
+/* Location Display */
+.location-info {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.location-badge {
+  background: rgba(78, 204, 163, 0.1);
+  border: 1px solid rgba(78, 204, 163, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.location-icon {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  flex-shrink: 0;
+}
+
+.location-text {
+  color: #4ecca3;
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex-grow: 1;
+}
+
+.location-source {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  color: #b8c5d6;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Enhanced Select Styling */
+.crops-select,
+.business-select {
+  min-height: 60px;
+  width: 100%;
+}
+
+.crops-select option {
+  padding: 8px;
+  margin: 2px 0;
+  border-radius: 6px;
+}
+
+.crops-select option:checked {
+  background: linear-gradient(135deg, #4ecca3, #00d4ff);
+  color: #ffffff;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #4ecca3, #00d4ff);
+  border: none;
+  border-radius: 12px;
+  padding: 18px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(78, 204, 163, 0.4);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Error Messages */
+.error-message {
+  background: rgba(220, 53, 69, 0.2);
+  border: 1px solid rgba(220, 53, 69, 0.4);
+  color: #ff6b6b;
+  padding: 16px;
+  border-radius: 12px;
+  margin: 20px;
+  text-align: center;
+  font-weight: 500;
+  width: calc(100% - 40px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 10px;
+  }
+  
+  .login-content {
+    margin: 10px;
+    border-radius: 16px;
+    width: calc(100% - 20px);
+  }
+  
+  .role-selection {
+    padding: 30px 20px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .auth-form {
+    padding: 25px 20px;
+  }
+  
+  .location-badge {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  .location-source {
+    position: static;
+    margin-top: 4px;
+  }
+  
+  .role-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 100%;
+  }
+  
+  .platform-highlights {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 5px;
+  }
+  
+  .login-content {
+    margin: 5px;
+    border-radius: 12px;
+    width: calc(100% - 10px);
+  }
+  
+  .role-selection {
+    padding: 20px 15px;
+  }
+  
+  .auth-form {
+    padding: 20px 15px;
+  }
+  
+  .role-card {
+    padding: 25px 20px;
+    min-height: 250px;
+  }
+  
+  .main-title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Loading States */
+.submit-button:disabled {
+  background: linear-gradient(135deg, #6c757d, #495057);
+}
+
+/* Smooth Transitions */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(78, 204, 163, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(78, 204, 163, 0.7);
+}
+
+/* Ensure full height on all devices */
+@media (max-height: 600px) {
+  .login-container {
+    min-height: 100vh;
+    padding: 10px;
+  }
+  
+  .role-selection {
+    padding: 30px 20px;
+  }
+  
+  .auth-form {
+    padding: 25px 20px;
+  }
+}

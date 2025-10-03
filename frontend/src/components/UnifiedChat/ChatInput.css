@@ -1,0 +1,266 @@
+/* ChatInput.css - Simple ChatGPT Style */
+
+.chat-input {
+  background: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  padding: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== SIMPLE SUGGESTIONS ===== */
+.simple-suggestions {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.suggestion-chip {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  color: #495057;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggestion-chip:hover {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+  transform: translateY(-1px);
+}
+
+.suggestion-chip:active {
+  transform: translateY(0);
+}
+
+/* ===== INPUT FORM ===== */
+.input-form {
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.input-container {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+/* ===== MESSAGE INPUT ===== */
+.message-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.message-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  outline: none;
+  transition: all 0.2s;
+  resize: none;
+  font-family: inherit;
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+.message-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.message-input:disabled {
+  background: #f7f7f8;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.message-input::placeholder {
+  color: #999;
+}
+
+/* ===== TYPING INDICATOR ===== */
+.typing-indicator {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  display: flex;
+  gap: 2px;
+}
+
+.typing-dot {
+  width: 4px;
+  height: 4px;
+  background: #007bff;
+  border-radius: 50%;
+  animation: typing-bounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ===== INPUT ACTIONS ===== */
+.input-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.clear-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.clear-button:hover {
+  background: #5a6268;
+  transform: scale(1.05);
+}
+
+.clear-button:active {
+  transform: scale(0.95);
+}
+
+.send-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.send-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.send-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .chat-input {
+    padding: 16px;
+  }
+  
+  .simple-suggestions {
+    gap: 6px;
+  }
+  
+  .suggestion-chip {
+    padding: 6px 10px;
+    font-size: 12px;
+    max-width: 150px;
+  }
+  
+  .input-container {
+    gap: 8px;
+  }
+  
+  .message-input {
+    padding: 10px 14px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .send-button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .clear-button {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-input {
+    padding: 12px;
+  }
+  
+  .simple-suggestions {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .suggestion-chip {
+    max-width: none;
+    text-align: center;
+  }
+  
+  .input-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .message-input-wrapper {
+    order: 1;
+  }
+  
+  .input-actions {
+    order: 2;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .send-button, .clear-button {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,145 @@
+/* MessageRenderer.css */
+.message-container {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-container.own-message {
+    align-items: flex-end;
+}
+
+.message-container.other-message {
+    align-items: flex-start;
+}
+
+/* Message bubble styles */
+.message-container .message-bubble {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    word-wrap: break-word;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.own-message .message-bubble {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom-right-radius: 6px;
+}
+
+.other-message .message-bubble {
+    background: #f0f0f0;
+    color: #333;
+    border-bottom-left-radius: 6px;
+}
+
+/* Message metadata */
+.message-meta {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.own-message .message-meta {
+    text-align: right;
+}
+
+.other-message .message-meta {
+    text-align: left;
+}
+
+/* Sender name */
+.sender-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+}
+
+.own-message .sender-name {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.other-message .sender-name {
+    color: #666;
+}
+
+/* AI Agent specific styles */
+.ai-agent-message .message-bubble {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    border-left: 4px solid #ff4757;
+}
+
+/* Poll message specific styles */
+.poll-message .message-bubble {
+    background: linear-gradient(135deg, #26de81 0%, #20bf6b 100%);
+    color: white;
+    border-left: 4px solid #0fb9b1;
+}
+
+/* Logistics message specific styles */
+.logistics-message .message-bubble {
+    background: linear-gradient(135deg, #45aaf2 0%, #2bcbba 100%);
+    color: white;
+    border-left: 4px solid #4ecdc4;
+}
+
+/* Payment message specific styles */
+.payment-message .message-bubble {
+    background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+    color: white;
+    border-left: 4px solid #fd79a8;
+}
+
+/* Message actions */
+.message-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.own-message .message-actions {
+    justify-content: flex-end;
+}
+
+.other-message .message-actions {
+    justify-content: flex-start;
+}
+
+.action-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.action-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .message-container .message-bubble {
+        max-width: 85%;
+    }
+    
+    .message-actions {
+        flex-direction: column;
+        gap: 6px;
+    }
+    
+    .action-button {
+        width: 100%;
+        text-align: center;
+    }
+}

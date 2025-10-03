@@ -1,0 +1,530 @@
+/* MessageList.css - Simple ChatGPT Style */
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: #ffffff;
+}
+
+.message-list.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  max-width: 400px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state h4 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  color: #333;
+  font-weight: 600;
+}
+
+.empty-state p {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* ===== MESSAGE STYLES ===== */
+.message {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.message:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== MESSAGE AVATAR ===== */
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message.user .message-avatar {
+  background: #28a745;
+}
+
+.message.ai-agent .message-avatar {
+  background: #6f42c1;
+}
+
+.message.poll .message-avatar {
+  background: #17a2b8;
+}
+
+.message.logistics .message-avatar {
+  background: #fd7e14;
+}
+
+.message.payment .message-avatar {
+  background: #20c997;
+}
+
+/* ===== MESSAGE CONTENT ===== */
+.message-content {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #f7f7f8;
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 1.4;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.message.user .message-content {
+  background: #007bff;
+  color: white;
+}
+
+.message.ai-agent .message-content {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+.message.poll .message-content {
+  background: #e3f2fd;
+  border: 1px solid #bbdefb;
+}
+
+.message.logistics .message-content {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+}
+
+.message.payment .message-content {
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+}
+
+/* ===== MESSAGE SENDER ===== */
+.message-sender {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.message.user .message-sender {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.message.ai-agent .message-sender {
+  color: #6f42c1;
+  font-weight: 600;
+}
+
+.message.poll .message-sender {
+  color: #1976d2;
+  font-weight: 600;
+}
+
+.message.logistics .message-sender {
+  color: #856404;
+  font-weight: 600;
+}
+
+.message.payment .message-sender {
+  color: #0c5460;
+  font-weight: 600;
+}
+
+/* ===== MESSAGE TEXT ===== */
+.message-text {
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ===== MESSAGE TIME ===== */
+.message-time {
+  font-size: 11px;
+  color: #999;
+  text-align: right;
+  opacity: 0.8;
+}
+
+.message.user .message-time {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ===== INLINE ACTIONS ===== */
+.inline-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.action-btn.primary {
+  background: #007bff;
+  color: white;
+}
+
+.action-btn.primary:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.action-btn.secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.action-btn.secondary:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.action-btn.info {
+  background: #17a2b8;
+  color: white;
+}
+
+.action-btn.info:hover {
+  background: #138496;
+  transform: translateY(-1px);
+}
+
+.action-btn.accept {
+  background: #28a745;
+  color: white;
+}
+
+.action-btn.accept:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.action-btn.reject {
+  background: #dc3545;
+  color: white;
+}
+
+.action-btn.reject:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+/* ===== POLL MESSAGE ===== */
+.poll-header {
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.poll-question, .poll-justification, .poll-expiry {
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+/* ===== LOGISTICS MESSAGE ===== */
+.logistics-header {
+  font-weight: 600;
+  color: #856404;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.logistics-content {
+  line-height: 1.4;
+}
+
+/* ===== PAYMENT MESSAGE ===== */
+.payment-header {
+  font-weight: 600;
+  color: #0c5460;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.payment-content {
+  line-height: 1.4;
+}
+
+/* Active Poll Banner */
+.active-poll-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #4a90e2;
+}
+
+.poll-avatar {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.poll-content {
+  text-align: center;
+}
+
+.poll-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.poll-question {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.poll-justification {
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.poll-expiry {
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.poll-voting-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.vote-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vote-btn.accept {
+  background: #28a745;
+  color: white;
+}
+
+.vote-btn.accept:hover {
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+.vote-btn.reject {
+  background: #dc3545;
+  color: white;
+}
+
+.vote-btn.reject:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.vote-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive design for poll banner */
+@media (max-width: 768px) {
+  .active-poll-banner {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .poll-voting-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .vote-btn {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .message-list {
+    padding: 16px;
+  }
+  
+  .message {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  .message-content {
+    max-width: 85%;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .inline-actions {
+    flex-direction: column;
+  }
+  
+  .action-btn {
+    width: 100%;
+  }
+  
+  .empty-state {
+    padding: 40px 16px;
+  }
+  
+  .empty-icon {
+    font-size: 36px;
+  }
+  
+  .empty-state h4 {
+    font-size: 20px;
+  }
+  
+  .empty-state p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .message-list {
+    padding: 12px;
+  }
+  
+  .message {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .message-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .message-content {
+    max-width: 90%;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .poll-header, .logistics-header, .payment-header {
+    font-size: 14px;
+  }
+  
+  .action-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .empty-state {
+    padding: 30px 12px;
+  }
+  
+  .empty-icon {
+    font-size: 32px;
+  }
+  
+  .empty-state h4 {
+    font-size: 18px;
+  }
+  
+  .empty-state p {
+    font-size: 13px;
+  }
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+.message-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.message-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.message-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
