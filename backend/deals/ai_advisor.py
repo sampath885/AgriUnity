@@ -5,6 +5,7 @@ Provides advanced AI capabilities, comprehensive advisory services, and automati
 """
 
 import os
+import threading
 import joblib
 import pickle
 import os
@@ -4354,5 +4355,25 @@ class AutomatedActionSystem:
                 'phase': 'Phase 3 - MSP Advisor'
             }
 
-# Global instance for easy access
-agri_genie = AgriGenieAdvisor()
+# Lazy-initialized singleton accessor to avoid heavy startup costs
+# The advisor loads ML stacks (scikit-learn/scipy) which can be expensive
+# on constrained environments. We defer initialization until first use.
+_agri_genie_instance = None
+_agri_genie_lock = threading.Lock()
+
+def get_agri_genie():
+    """Return a singleton instance of AgriGenieAdvisor (lazy-initialized)."""
+    global _agri_genie_instance
+    if _agri_genie_instance is None:
+        with _agri_genie_lock:
+            if _agri_genie_instance is None:
+                _agri_genie_instance = AgriGenieAdvisor()
+    return _agri_genie_instance
+
+class _LazyAgriGenieProxy:
+    """Attribute proxy that initializes advisor on first attribute access."""
+    def __getattr__(self, name):
+        return getattr(get_agri_genie(), name)
+
+# Backward-compatible export: existing code can keep using `agri_genie.method(...)`
+agri_genie = _LazyAgriGenieProxy()
