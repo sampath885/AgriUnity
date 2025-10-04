@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: agriunity-backend
+    env: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    startCommand: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: agriunity-backend.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://agriunity-frontend.vercel.app
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://agriunity-frontend.vercel.app,https://agriunity-backend.onrender.com
+

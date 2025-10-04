@@ -22,3 +22,7 @@ scikit-learn
 # MCP Server Dependencies
 mcp>=1.0.0
 asyncio-mqtt>=0.16.0
+gunicorn
+whitenoise
+psycopg2-binary
+dj-database-url

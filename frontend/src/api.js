@@ -8,7 +8,10 @@
  * @param {object} options - Optional fetch options (method, body, etc.).
  * @returns {Promise<any>} - The JSON response from the server.
  */
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
+
 export const authFetch = async (url, token, options = {}) => {
+    const fullUrl = url.startsWith('http') ? url : `${API_BASE}${url}`;
     const isFormData = options && options.body instanceof FormData;
     const defaultHeaders = {
         ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
@@ -23,7 +26,7 @@ export const authFetch = async (url, token, options = {}) => {
         },
     };
 
-    const response = await fetch(url, config);
+    const response = await fetch(fullUrl, config);
 
     if (!response.ok) {
         // Try to parse error JSON, but handle cases where it might not be JSON
