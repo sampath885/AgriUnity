@@ -11,6 +11,8 @@ import UnifiedChat from './components/UnifiedChat/UnifiedChat';
 import WorkflowDemo from './components/UnifiedChat/WorkflowDemo';
 import { authFetch } from './api';
 
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
+
 function App() {
     const user = useUserStore((state) => state.user);
     const token = useUserStore((state) => state.token);
@@ -22,7 +24,7 @@ function App() {
 
     const loadNotifications = async () => {
         try {
-            const data = await authFetch('http://localhost:8000/api/notifications/my/', token);
+            const data = await authFetch(`${API_BASE}/api/notifications/my/`, token);
             setNotifications(data || []);
         } catch (e) {
             console.error(e);
@@ -114,10 +116,10 @@ function DealGroupsList({ onSelectDealGroup }) {
             // Use different endpoints based on user role
             if (user.role === 'BUYER') {
                 // Buyers see groups they can discover and join (FORMED, NEGOTIATING)
-                endpoint = 'http://localhost:8000/api/deals/available-groups/';
+                endpoint = `${API_BASE}/api/deals/available-groups/`;
             } else {
                 // Farmers see groups where they have listings
-                endpoint = 'http://localhost:8000/api/deals/my-groups/';
+                endpoint = `${API_BASE}/api/deals/my-groups/`;
             }
             
             console.log('DealGroupsList: Fetching from endpoint:', endpoint, 'for role:', user.role);

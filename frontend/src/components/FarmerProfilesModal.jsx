@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { authFetch } from '../api';
 import './FarmerProfilesModal.css';
 
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
+
 const FarmerProfilesModal = ({ groupId, groupName, isOpen, onClose, token }) => {
     const [farmers, setFarmers] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -22,7 +24,7 @@ const FarmerProfilesModal = ({ groupId, groupName, isOpen, onClose, token }) => 
         setLoading(true);
         setError(null);
         try {
-            const data = await authFetch(`http://localhost:8000/api/deals/groups/${groupId}/members/`, token);
+            const data = await authFetch(`${API_BASE}/api/deals/groups/${groupId}/members/`, token);
             setFarmers(data || []);
         } catch (err) {
             setError('Failed to fetch farmer profiles. Please try again.');

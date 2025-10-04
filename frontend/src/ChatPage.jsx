@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import useUserStore from './store';
 import './ChatPage.css';
 
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
+
 function ChatPage() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
@@ -22,7 +24,7 @@ function ChatPage() {
     useEffect(() => {
         const loadHistory = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/chatbot/ask/', {
+                const response = await fetch(`${API_BASE}/api/chatbot/ask/`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Token ${token}`
@@ -65,7 +67,7 @@ function ChatPage() {
             
             console.log("Request Headers being sent:", headers); // DEBUG LOG
 
-            const response = await fetch('http://localhost:8000/api/chatbot/ask/', {
+            const response = await fetch(`${API_BASE}/api/chatbot/ask/`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify({ message: currentInput })

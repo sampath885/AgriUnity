@@ -3,6 +3,8 @@ import useUserStore from './store';
 import { authFetch } from './api';
 import PriceExplanationCard from './PriceExplanationCard';
 
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
+
 function NegotiationPage({ groupId, onBack }) {
   const token = useUserStore((state) => state.token);
   const [messages, setMessages] = useState([]);
@@ -12,7 +14,7 @@ function NegotiationPage({ groupId, onBack }) {
 
   const fetchMessages = async () => {
     try {
-      const data = await authFetch(`http://localhost:8000/api/deals/groups/${groupId}/messages/`, token);
+      const data = await authFetch(`${API_BASE}/api/deals/groups/${groupId}/messages/`, token);
       setMessages(data || []);
     } catch (err) {
       setError('Failed to load messages');
@@ -28,7 +30,7 @@ function NegotiationPage({ groupId, onBack }) {
   const submitOffer = async (e) => {
     e.preventDefault();
     try {
-      const resp = await authFetch(`http://localhost:8000/api/deals/groups/${groupId}/submit-offer/`, token, {
+      const resp = await authFetch(`${API_BASE}/api/deals/groups/${groupId}/submit-offer/`, token, {
         method: 'POST',
         body: JSON.stringify({ price_per_kg: offerPrice })
       });

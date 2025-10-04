@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import useUserStore from './store';
 import { authFetch } from './api';
 import './Dashboard.css';
+
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
 import UnifiedChat from './components/UnifiedChat/UnifiedChat';
 
 function BuyerDashboard() {
@@ -19,9 +21,9 @@ function BuyerDashboard() {
       setLoading(true);
       // Load different types of groups
       const [ownedGroups, availableGroups, buyerDeals] = await Promise.all([
-        authFetch('http://localhost:8000/api/deals/my-groups/', token),
-        authFetch('http://localhost:8000/api/deals/available-groups/', token),
-        authFetch('http://localhost:8000/api/deals/buyer/deals/', token)
+        authFetch(`${API_BASE}/api/deals/my-groups/`, token),
+        authFetch(`${API_BASE}/api/deals/available-groups/`, token),
+        authFetch(`${API_BASE}/api/deals/buyer/deals/`, token)
       ]);
       
       console.log('🔍 Frontend: Owned groups received:', ownedGroups);

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { authFetch } from '../../api';
 import useUserStore from '../../store';
+
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
 import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
@@ -57,7 +59,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
         
         // All users can fetch deal group details
         try {
-          const groupResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/`, token);
+          const groupResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/`, token);
           if (groupResponse) {
             setDealGroup(groupResponse);
             setDealStatus(groupResponse.status || 'NEGOTIATING');
@@ -72,7 +74,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
         if (user.role === 'BUYER') {
           try {
             // Try to fetch existing messages from the group chat
-            const messagesResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/chat/`, token);
+            const messagesResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/chat/`, token);
             if (messagesResponse && Array.isArray(messagesResponse)) {
               // Filter and format messages for buyer view
               const buyerMessages = messagesResponse
@@ -102,7 +104,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
           // Fetch active poll for buyers (including location confirmation)
           try {
             console.log('🔄 Fetching active poll for deal group:', dealGroupId);
-            const pollResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/active-poll/`, token);
+            const pollResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/active-poll/`, token);
             if (pollResponse) {
               console.log('✅ Active poll fetched for buyer:', pollResponse);
               console.log('🔍 Poll type:', pollResponse.poll_type);
@@ -123,7 +125,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
         if (user.role === 'FARMER') {
           // Fetch messages
           try {
-            const messagesResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/chat/`, token);
+            const messagesResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/chat/`, token);
             if (messagesResponse) {
               // Only set messages if we don't already have messages (to avoid overwriting new ones)
               if (messages.length === 0) {
@@ -142,7 +144,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
           
           // Fetch members
           try {
-            const membersResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/members/`, token);
+            const membersResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/members/`, token);
             if (membersResponse) {
               setMembers(membersResponse);
             }
@@ -153,7 +155,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
           
           // Fetch active poll
           try {
-            const pollResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/active-poll/`, token);
+            const pollResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/active-poll/`, token);
             if (pollResponse) {
               setActivePoll(pollResponse);
             }
@@ -164,7 +166,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
           
           // Fetch logistics
           try {
-            const logisticsResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/logistics/`, token);
+            const logisticsResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/logistics/`, token);
             if (logisticsResponse) {
               setLogistics(logisticsResponse);
             }
@@ -191,7 +193,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
     
     try {
       // Try to fetch existing offers and negotiations
-      const existingData = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/negotiation-history/`, token);
+      const existingData = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/negotiation-history/`, token);
       
       if (existingData && existingData.timeline && Array.isArray(existingData.timeline)) {
         // Convert existing data to message format
@@ -250,7 +252,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
     if (!content.trim() || !token || user?.role !== 'FARMER') return;
     
     try {
-      const response = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/chat/`, token, {
+      const response = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/chat/`, token, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -274,7 +276,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
     if (!token || !dealGroupId) return;
     
     try {
-      const pollResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/active-poll/`, token);
+      const pollResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/active-poll/`, token);
       if (pollResponse) {
         setActivePoll(pollResponse);
       } else {
@@ -301,26 +303,26 @@ function UnifiedChat({ dealGroupId, onClose }) {
            if (data.pollId) {
              // For location confirmation polls, use the location vote endpoint
              if (data.pollType === 'location_confirmation') {
-               endpoint = `http://localhost:8000/api/deals/location-polls/${data.pollId}/vote/`;
+               endpoint = `${API_BASE}/api/deals/location-polls/${data.pollId}/vote/`;
              } else {
-               endpoint = `http://localhost:8000/api/deals/polls/${data.pollId}/vote/`;
+               endpoint = `${API_BASE}/api/deals/polls/${data.pollId}/vote/`;
              }
            } else {
-             endpoint = `http://localhost:8000/api/deals/groups/${dealGroupId}/vote/`;
+             endpoint = `${API_BASE}/api/deals/groups/${dealGroupId}/vote/`;
            }
            body = { choice: data.choice };
            break;
           
         case 'confirm_collection':
-          endpoint = `http://localhost:8000/api/deals/groups/${dealGroupId}/collection/confirm/`;
+          endpoint = `${API_BASE}/api/deals/groups/${dealGroupId}/collection/confirm/`;
           break;
           
         case 'confirm_payment':
-          endpoint = `http://localhost:8000/api/deals/groups/${dealGroupId}/payment/confirm/`;
+          endpoint = `${API_BASE}/api/deals/groups/${dealGroupId}/payment/confirm/`;
           break;
           
         case 'book_shipment':
-          endpoint = `http://localhost:8000/api/deals/groups/${dealGroupId}/shipment/book/`;
+          endpoint = `${API_BASE}/api/deals/groups/${dealGroupId}/shipment/book/`;
           break;
           
         default:
@@ -375,7 +377,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
       
       // Submit the offer to backend
       console.log(`🚀 Submitting offer ₹${offerPrice}/kg to backend...`);
-      const response = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/submit-offer/`, token, {
+      const response = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/submit-offer/`, token, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -537,7 +539,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
         
         // If it's a counter offer, submit it to backend
         if (response === 'COUNTER') {
-          const backendResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/submit-offer/`, token, {
+          const backendResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/submit-offer/`, token, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -598,7 +600,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
     
     try {
       console.log('🔄 Manually refreshing messages from database...');
-      const messagesResponse = await authFetch(`http://localhost:8000/api/deals/groups/${dealGroupId}/chat/`, token);
+      const messagesResponse = await authFetch(`${API_BASE}/api/deals/groups/${dealGroupId}/chat/`, token);
       if (messagesResponse && Array.isArray(messagesResponse)) {
         if (user.role === 'BUYER') {
           // Filter and format messages for buyer view

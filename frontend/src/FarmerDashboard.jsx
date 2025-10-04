@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import useUserStore from './store';
 import { authFetch } from './api';
 import './Dashboard.css';
+
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
 import PriceExplanationCard from './PriceExplanationCard.jsx';
 import FarmerProfilesModal from './components/FarmerProfilesModal.jsx';
 
@@ -15,7 +17,7 @@ function ActivePolls() {
 
     const fetchPolls = async () => {
         try {
-            const data = await authFetch('http://localhost:8000/api/deals/my-polls/', token);
+            const data = await authFetch(`${API_BASE}/api/deals/my-polls/`, token);
             setPolls(data || []);
         } catch (err) {
             setError("Failed to fetch active polls. Please try refreshing.");
@@ -31,7 +33,7 @@ function ActivePolls() {
 
     const handleVote = async (pollId, choice) => {
         try {
-            const result = await authFetch(`http://localhost:8000/api/deals/polls/${pollId}/vote/`, token, {
+            const result = await authFetch(`${API_BASE}/api/deals/polls/${pollId}/vote/`, token, {
                 method: 'POST',
                 body: JSON.stringify({ choice })
             });
@@ -196,7 +198,7 @@ function FarmerDashboard() {
 
     const fetchGroups = async () => {
         try {
-            const data = await authFetch('http://localhost:8000/api/deals/my-groups/', token);
+            const data = await authFetch(`${API_BASE}/api/deals/my-groups/`, token);
             setGroups(data || []);
         } catch (e) {
             console.error(e);
@@ -218,8 +220,8 @@ function FarmerDashboard() {
         setError(null);
         try {
             const promises = [
-                authFetch('http://localhost:8000/api/products/crops/', token),
-                authFetch('http://localhost:8000/api/products/my-listings/', token)
+                authFetch(`${API_BASE}/api/products/crops/`, token),
+                authFetch(`${API_BASE}/api/products/my-listings/`, token)
             ];
             if (tab === 'groups') {
                 await fetchGroups();
@@ -249,7 +251,7 @@ function FarmerDashboard() {
         formData.append('grade', selectedGrade);
 
         try {
-            await authFetch('http://localhost:8000/api/products/list-product/', token, {
+            await authFetch(`${API_BASE}/api/products/list-product/`, token, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -272,7 +274,7 @@ function FarmerDashboard() {
         const newQty = prompt('Enter new quantity (KG):', String(listing.quantity_kg));
         if (!newQty) return;
         try {
-            await authFetch(`http://localhost:8000/api/products/listings/${listing.id}/`, token, {
+            await authFetch(`${API_BASE}/api/products/listings/${listing.id}/`, token, {
                 method: 'PATCH',
                 body: JSON.stringify({ quantity_kg: parseInt(newQty, 10) })
             });

@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import useUserStore from './store';
 import { authFetch } from './api';
 import PriceExplanationCard from './PriceExplanationCard.jsx';
+
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
 import './Dashboard.css';
 
 function GroupRoom({ group, onClose }) {
@@ -25,11 +27,11 @@ function GroupRoom({ group, onClose }) {
       console.log('🔄 Starting fetchAll for group:', group.id);
       
       const [msgs, mems, polls, logisticsData, negotiationHistory] = await Promise.all([
-        authFetch(`http://localhost:8000/api/deals/groups/${group.id}/chat/`, token),
-        authFetch(`http://localhost:8000/api/deals/groups/${group.id}/members/`, token),
-        authFetch('http://localhost:8000/api/deals/my-polls/', token).catch(() => []),
-        authFetch(`http://localhost:8000/api/deals/groups/${group.id}/logistics/`, token).catch(() => null),
-        authFetch(`http://localhost:8000/api/deals/groups/${group.id}/negotiation-history/`, token).catch(() => null),
+        authFetch(`${API_BASE}/api/deals/groups/${group.id}/chat/`, token),
+        authFetch(`${API_BASE}/api/deals/groups/${group.id}/members/`, token),
+        authFetch(`${API_BASE}/api/deals/my-polls/`, token).catch(() => []),
+        authFetch(`${API_BASE}/api/deals/groups/${group.id}/logistics/`, token).catch(() => null),
+        authFetch(`${API_BASE}/api/deals/groups/${group.id}/negotiation-history/`, token).catch(() => null),
       ]);
       
       console.log('📡 Raw API responses:');
@@ -128,7 +130,7 @@ function GroupRoom({ group, onClose }) {
       const user = useUserStore.getState().user;
       if (user?.role === 'BUYER') {
         // Create negotiation message for buyer
-        await authFetch(`http://localhost:8000/api/deals/negotiation-messages/`, token, {
+        await authFetch(`${API_BASE}/api/deals/negotiation-messages/`, token, {
           method: 'POST',
           body: JSON.stringify({ 
             deal_group: group.id,
@@ -138,7 +140,7 @@ function GroupRoom({ group, onClose }) {
         });
       } else {
         // For farmers, use regular group chat
-        await authFetch(`http://localhost:8000/api/deals/groups/${group.id}/chat/`, token, {
+        await authFetch(`${API_BASE}/api/deals/groups/${group.id}/chat/`, token, {
           method: 'POST',
           body: JSON.stringify({ content: input.trim() }),
         });
@@ -155,7 +157,7 @@ function GroupRoom({ group, onClose }) {
   const vote = async (choice) => {
     if (!poll) return;
     try {
-      const res = await authFetch(`http://localhost:8000/api/deals/polls/${poll.id}/vote/`, token, {
+      const res = await authFetch(`${API_BASE}/api/deals/polls/${poll.id}/vote/`, token, {
         method: 'POST',
         body: JSON.stringify({ choice }),
       });
@@ -169,7 +171,7 @@ function GroupRoom({ group, onClose }) {
   const bookShipment = async () => {
     try {
       setLoading(true);
-      const response = await authFetch(`http://localhost:8000/api/deals/deals/${group.id}/shipments/book/`, token, { 
+      const response = await authFetch(`${API_BASE}/api/deals/deals/${group.id}/shipments/book/`, token, { 
         method: 'POST' 
       });
       alert('Shipment booked successfully! The hub will coordinate collection.');
@@ -184,7 +186,7 @@ function GroupRoom({ group, onClose }) {
   const confirmCollection = async () => {
     try {
       setLoading(true);
-      const response = await authFetch(`http://localhost:8000/api/deals/deals/${group.id}/collection/confirm/`, token, { 
+      const response = await authFetch(`${API_BASE}/api/deals/deals/${group.id}/collection/confirm/`, token, { 
         method: 'POST' 
       });
       alert('Collection confirmed! Your produce is ready for pickup.');
