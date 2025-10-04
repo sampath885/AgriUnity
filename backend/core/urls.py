@@ -2,6 +2,10 @@
 
 from django.contrib import admin
 from django.urls import path, include  # Ensure 'include' is imported
+from django.http import JsonResponse
+
+def root_health(request):
+    return JsonResponse({"status": "ok", "service": "AgriUnity backend"})
 
 urlpatterns = [
     # Admin Panel URL
@@ -36,4 +40,7 @@ urlpatterns = [
     # General API URLs (health check, etc. from the 'api' app) - MUST COME LAST
     # All URLs starting with /api/ will be handled by api.urls
     path('api/', include('api.urls')),
+
+    # Root health endpoint for Render/monitoring
+    path('', root_health),
 ]

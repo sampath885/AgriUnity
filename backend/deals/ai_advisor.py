@@ -7,6 +7,8 @@ Provides advanced AI capabilities, comprehensive advisory services, and automati
 import os
 import joblib
 import pickle
+import os
+from django.conf import settings
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
@@ -41,14 +43,20 @@ class MarketIntelligenceEngine:
     def _load_ml_models(self):
         """Load trained ML models"""
         try:
-            self.ml_model = joblib.load('advanced_pricing_model.pkl')
-            self.scaler = joblib.load('price_scaler.pkl')
-            
-            with open('price_encoders.pkl', 'rb') as f:
+            base_dir = getattr(settings, 'BASE_DIR', os.getcwd())
+            model_path = os.path.join(base_dir, 'advanced_pricing_model.pkl')
+            scaler_path = os.path.join(base_dir, 'price_scaler.pkl')
+            encoders_path = os.path.join(base_dir, 'price_encoders.pkl')
+            features_path = os.path.join(base_dir, 'price_features.pkl')
+
+            self.ml_model = joblib.load(model_path)
+            self.scaler = joblib.load(scaler_path)
+
+            with open(encoders_path, 'rb') as f:
                 encoders_data = pickle.load(f)
                 self.encoders = encoders_data
             
-            with open('price_features.pkl', 'rb') as f:
+            with open(features_path, 'rb') as f:
                 self.feature_columns = pickle.load(f)
                 
             print("✅ ML models loaded successfully")
