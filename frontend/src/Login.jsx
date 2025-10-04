@@ -4,6 +4,8 @@ import useUserStore from './store';
 import { authFetch } from './api';
 import './Login.css';
 
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || '';
+
 function Login() {
   const [step, setStep] = useState('role-select'); // role-select, farmer-auth, buyer-auth, login
   const [userRole, setUserRole] = useState('');
@@ -68,7 +70,7 @@ function Login() {
       setLocationData(prev => ({ ...prev, isDetecting: true }));
       
       try {
-        const url = `http://localhost:8000/api/locations/pincode/${pincode}/`;
+        const url = `${API_BASE}/api/locations/pincode/${pincode}/`;
         console.log(`🌐 Fetching from: ${url}`);
         
         const response = await fetch(url);
