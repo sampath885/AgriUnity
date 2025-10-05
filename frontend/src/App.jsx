@@ -57,7 +57,7 @@ function App() {
                         <button onClick={() => setCurrentPage('dashboard')}>Dashboard</button>
                         <button onClick={() => setCurrentPage('workflow-demo')}>Workflow Demo 🔄</button>
                         <button onClick={() => setCurrentPage('chatbot')}>AgriGenie Advisor</button>
-                        <button onClick={() => setShowNotifications((v)=>!v)} title="Notifications">🔔</button>
+                        {/* <button onClick={() => setShowNotifications((v)=>!v)} title="Notifications">🔔</button> */}
                     </nav>
                     <Logout />
                 </header>
@@ -84,7 +84,7 @@ function App() {
                 <main>
                     {currentPage === 'dashboard' && user.role === 'FARMER' && <FarmerDashboard />}
                     {currentPage === 'dashboard' && user.role === 'BUYER' && <BuyerDashboard />}
-                    {/* {currentPage === 'workflow-demo' && <WorkflowDemo />} */}
+                    {currentPage === 'workflow-demo' && <WorkflowDemo />}
                     {currentPage === 'chatbot' && <ChatPage />}
                 </main>
             </>
