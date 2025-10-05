@@ -22,6 +22,34 @@ function UnifiedChat({ dealGroupId, onClose }) {
   const [error, setError] = useState(null);
   const [isNegotiating, setIsNegotiating] = useState(false);
   const messagesEndRef = useRef(null);
+  const [notice, setNotice] = useState(null); // { type: 'success'|'error', text }
+
+  const showNotice = (text, type = 'success') => {
+    setNotice({ text, type });
+    window.clearTimeout(showNotice._t);
+    showNotice._t = window.setTimeout(() => setNotice(null), 3500);
+  };
+
+  // Format AI Agent text into readable HTML without changing the text itself
+  const formatAgentMessage = (text) => {
+    if (!text || typeof text !== 'string') return text;
+    // Basic markdown bold -> <strong>
+    let html = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Add a line break before bullets to make them readable
+    html = html.replace(/\s•\s/g, '<br/>• ');
+    // Break on common separators
+    html = html.replace(/\s\u2022\s/g, '<br/>• '); // explicit bullet char
+    // Ensure any explicit newlines are honored
+    html = html.replace(/\n/g, '<br/>');
+    // Add spacing before subsequent strong sections (headings-like)
+    let firstStrongSeen = false;
+    html = html.replace(/<strong>/g, () => {
+      if (firstStrongSeen) return '<br/><br/><strong>';
+      firstStrongSeen = true;
+      return '<strong>';
+    });
+    return html;
+  };
 
   // Safety check - don't render if no user or token
   if (!token || !user) {
@@ -342,9 +370,8 @@ function UnifiedChat({ dealGroupId, onClose }) {
         // For voting, refresh the active poll instead of reloading the page
         if (action === 'vote') {
           await refreshActivePoll();
-          // Show success message
           const actionType = data.pollType === 'location_confirmation' ? 'Location' : 'Offer';
-          alert(`${actionType} ${data.choice.toLowerCase()}d successfully!`);
+          showNotice(`${actionType} ${data.choice.toLowerCase()}d successfully!`, 'success');
         } else {
           // Refresh data after other actions
           window.location.reload();
@@ -352,7 +379,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
       }
     } catch (err) {
       console.error('Error performing action:', err);
-      alert('Error performing action. Please try again.');
+      showNotice('Error performing action. Please try again.', 'error');
     }
   };
 
@@ -459,7 +486,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
         
         const aiResponse = {
           id: Date.now() + 1,
-          content: aiResponseContent,
+          content: formatAgentMessage(aiResponseContent),
           sender: { username: 'AI Agent', role: 'AGENT' },
           message_type: 'TEXT',
           created_at: new Date().toISOString(),
@@ -553,7 +580,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
             // Add AI Agent's response
             const aiResponse = {
               id: Date.now() + 1,
-              content: `🤖 **AI Agent**: ${backendResponse.agent_recommendation?.message_to_buyer || 'Thank you for your counter offer. Let me analyze this.'}`,
+              content: formatAgentMessage(`🤖 **AI Agent**: ${backendResponse.agent_recommendation?.message_to_buyer || 'Thank you for your counter offer. Let me analyze this.'}`),
               sender: { username: 'AI Agent', role: 'AGENT' },
               message_type: 'TEXT',
               created_at: new Date().toISOString(),
@@ -566,7 +593,7 @@ function UnifiedChat({ dealGroupId, onClose }) {
             if (backendResponse.agent_recommendation?.action === 'COUNTER_OFFER' && backendResponse.agent_recommendation?.new_price) {
               const counterOffer = {
                 id: Date.now() + 2,
-                content: `🤖 **AI Agent Counter Offer**: ₹${backendResponse.agent_recommendation.new_price}/kg\n\n**Justification**: ${backendResponse.agent_recommendation.justification || 'Based on market analysis and farmer requirements.'}`,
+                content: formatAgentMessage(`🤖 **AI Agent Counter Offer**: ₹${backendResponse.agent_recommendation.new_price}/kg\n\n**Justification**: ${backendResponse.agent_recommendation.justification || 'Based on market analysis and farmer requirements.'}`),
                 sender: { username: 'AI Agent', role: 'AGENT' },
                 message_type: 'COUNTER_OFFER',
                 created_at: new Date().toISOString(),
@@ -655,6 +682,11 @@ function UnifiedChat({ dealGroupId, onClose }) {
   if (user.role === 'BUYER') {
     return (
       <div className="unified-chat buyer-interface">
+        {notice && (
+          <div className={`toast ${notice.type}`}>
+            {notice.text}
+          </div>
+        )}
         {/* Header with refresh button */}
         <ChatHeader 
           dealGroup={dealGroup} 
@@ -778,6 +810,11 @@ function UnifiedChat({ dealGroupId, onClose }) {
   // For farmers, show the full group chat interface with AI Agent
   return (
     <div className="unified-chat">
+      {notice && (
+        <div className={`toast ${notice.type}`}>
+          {notice.text}
+        </div>
+      )}
       {/* Simple Header */}
       <ChatHeader 
         dealGroup={dealGroup} 

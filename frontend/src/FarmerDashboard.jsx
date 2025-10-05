@@ -184,12 +184,19 @@ function FarmerDashboard() {
     const [myListings, setMyListings] = useState([]);
     const [crops, setCrops] = useState([]);
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
     const [formError, setFormError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     
     // --- MODAL STATE ---
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedGroup, setSelectedGroup] = useState(null);
+    
+    // --- EDIT LISTING MODAL STATE ---
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [listingToEdit, setListingToEdit] = useState(null);
+    const [editQuantity, setEditQuantity] = useState('');
+    const [editError, setEditError] = useState('');
 
     // --- FORM STATE ---
     const [selectedCrop, setSelectedCrop] = useState('');
@@ -258,7 +265,8 @@ function FarmerDashboard() {
                     'Authorization': `Token ${token}`
                 }
             });
-            alert("Listing created successfully!");
+            setSuccessMessage('✅ Listing created successfully');
+            setTimeout(() => setSuccessMessage(''), 3500);
             setSelectedCrop('');
             setQuantity('');
             setSelectedGrade('');
@@ -270,17 +278,39 @@ function FarmerDashboard() {
 
     const canEdit = (listing) => ['AVAILABLE', 'GRADING'].includes(listing.status);
 
-    const editListing = async (listing) => {
-        const newQty = prompt('Enter new quantity (KG):', String(listing.quantity_kg));
-        if (!newQty) return;
+    const openEditModal = (listing) => {
+        setListingToEdit(listing);
+        setEditQuantity(String(listing.quantity_kg || ''));
+        setEditError('');
+        setIsEditOpen(true);
+    };
+
+    const closeEditModal = () => {
+        setIsEditOpen(false);
+        setListingToEdit(null);
+        setEditQuantity('');
+        setEditError('');
+    };
+
+    const submitEdit = async (e) => {
+        e.preventDefault();
+        setEditError('');
+        const qty = parseInt(editQuantity, 10);
+        if (!qty || qty <= 0) {
+            setEditError('Please enter a valid quantity greater than 0');
+            return;
+        }
         try {
-            await authFetch(`${API_BASE}/api/products/listings/${listing.id}/`, token, {
+            await authFetch(`${API_BASE}/api/products/listings/${listingToEdit.id}/`, token, {
                 method: 'PATCH',
-                body: JSON.stringify({ quantity_kg: parseInt(newQty, 10) })
+                body: JSON.stringify({ quantity_kg: qty })
             });
+            setSuccessMessage('✅ Listing updated successfully');
+            setTimeout(() => setSuccessMessage(''), 3500);
+            closeEditModal();
             fetchData();
-        } catch (e) {
-            alert(e.message);
+        } catch (e2) {
+            setEditError(e2.message || 'Failed to update listing');
         }
     };
 
@@ -300,19 +330,6 @@ function FarmerDashboard() {
 
     return (
         <div className="dashboard-container">
-            {/* Modern Header */}
-            <div className="dashboard-header">
-                <div className="header-content">
-                    <div className="welcome-section">
-                        <div className="user-info">
-                            <div className="user-name">Welcome, {user?.name || 'Farmer'}!</div>
-                            <div className="user-role">{user?.role || 'FARMER'}</div>
-                        </div>
-                    </div>
-                    <button className="logout-button" onClick={logout}>Logout</button>
-                </div>
-            </div>
-
             {/* Main Content */}
             <div className="dashboard-main">
                 <h1 className="dashboard-title">My Farmer Dashboard</h1>
@@ -338,6 +355,12 @@ function FarmerDashboard() {
                         {/* Section to create a new listing */}
                         <div className="dashboard-section">
                             <h3 className="section-title">List New Harvest</h3>
+                            {successMessage && (
+                                <div className="success-banner" role="status">
+                                    <span>{successMessage}</span>
+                                    <button type="button" className="banner-close" onClick={() => setSuccessMessage('')}>✕</button>
+                                </div>
+                            )}
                             <form onSubmit={handleSubmitListing} className="listing-form">
                                 <select value={selectedCrop} onChange={e => setSelectedCrop(e.target.value)} required>
                                     <option value="">-- Select Crop --</option>
@@ -403,7 +426,7 @@ function FarmerDashboard() {
                                                 <td>{new Date(listing.created_at).toLocaleDateString()}</td>
                                                 <td>
                                                     {canEdit(listing) ? (
-                                                        <button className="action-button edit" onClick={() => editListing(listing)}>Edit</button>
+                                                        <button className="action-button edit" onClick={() => openEditModal(listing)}>Edit</button>
                                                     ) : (
                                                         <span style={{ opacity: 0.6 }}>Locked</span>
                                                     )}
@@ -477,6 +500,33 @@ function FarmerDashboard() {
                 onClose={closeFarmerProfilesModal}
                 token={token}
             />
+
+            {/* Edit Listing Modal */}
+            {isEditOpen && (
+                <div className="modal-overlay" role="dialog" aria-modal="true">
+                    <div className="modal-card">
+                        <div className="modal-header">
+                            <h4>Edit Listing Quantity</h4>
+                            <button className="modal-close" onClick={closeEditModal}>✕</button>
+                        </div>
+                        <form onSubmit={submitEdit} className="modal-body">
+                            <label>Quantity (KG)</label>
+                            <input
+                                type="number"
+                                min="1"
+                                value={editQuantity}
+                                onChange={e => setEditQuantity(e.target.value)}
+                                required
+                            />
+                            {editError && <div className="modal-error">{editError}</div>}
+                            <div className="modal-actions">
+                                <button type="button" className="btn-secondary" onClick={closeEditModal}>Cancel</button>
+                                <button type="submit" className="btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

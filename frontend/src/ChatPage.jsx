@@ -12,6 +12,21 @@ function ChatPage() {
     const token = useUserStore((state) => state.token);
     const messagesEndRef = useRef(null);
 
+    // Format AI text (keep same text, improve readability)
+    const formatAIText = (text) => {
+        if (!text || typeof text !== 'string') return text;
+        let html = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\s•\s/g, '<br/>• ');
+        html = html.replace(/\n/g, '<br/>');
+        let first = false;
+        html = html.replace(/<strong>/g, () => {
+            if (first) return '<br/><br/><strong>';
+            first = true;
+            return '<strong>';
+        });
+        return html;
+    };
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -96,7 +111,11 @@ function ChatPage() {
             <div className="message-list">
                 {messages.map((msg, index) => (
                     <div key={index} className={`message ${msg.sender}`}>
-                        <div className="message-bubble">{msg.text}</div>
+                        {msg.sender === 'ai' ? (
+                            <div className="message-bubble" dangerouslySetInnerHTML={{ __html: formatAIText(msg.text) }} />
+                        ) : (
+                            <div className="message-bubble">{msg.text}</div>
+                        )}
                     </div>
                 ))}
                 {isLoading && (

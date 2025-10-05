@@ -23,7 +23,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #343a40;
+  background-color: #0b1220; /* solid, high-contrast */
   color: white;
   width: 100%;
   position: sticky;
@@ -40,7 +40,7 @@ html, body {
 
 .app-header nav button {
   background: none;
-  border: 1px solid white;
+  border: 1px solid #475569;
   color: white;
   padding: 8px 15px;
   border-radius: 4px;
@@ -50,7 +50,7 @@ html, body {
 }
 
 .app-header nav button:hover {
-  background-color: #495057;
+  background-color: #111827;
   transform: translateY(-1px);
 }
 
@@ -63,22 +63,21 @@ html, body {
 }
 
 .logout-container span { 
-  margin-right: 15px; 
-  font-weight: 500;
+  display: none; /* avoid duplicate welcome text on header */
 }
 
 .logout-container button { 
-  background-color: #dc3545; 
-  color: white; 
-  border: none; 
-  padding: 8px 15px; 
-  border-radius: 4px; 
+  background: transparent;
+  border: 1px solid #475569;
+  color: #e5e7eb;
+  padding: 8px 15px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .logout-container button:hover {
-  background-color: #c82333;
+  background-color: #111827;
   transform: translateY(-1px);
 }
 
