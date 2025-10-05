@@ -84,7 +84,7 @@ function App() {
                 <main>
                     {currentPage === 'dashboard' && user.role === 'FARMER' && <FarmerDashboard />}
                     {currentPage === 'dashboard' && user.role === 'BUYER' && <BuyerDashboard />}
-                    {currentPage === 'workflow-demo' && <WorkflowDemo />}
+                    {/* {currentPage === 'workflow-demo' && <WorkflowDemo />} */}
                     {currentPage === 'chatbot' && <ChatPage />}
                 </main>
             </>
